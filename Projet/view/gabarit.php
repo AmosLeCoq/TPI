@@ -46,11 +46,11 @@
                     <!-- Main navigation -->
                     <div class="nav-collapse collapse pull-right">
                         <ul class="nav" id="top-navigation">
-                            <li class="active"><a href="">Home</a></li>
-                            <li><a href="">Stage</a></li>
-                            <li><a href="">Login</a></li>
-                            <li><a href="">Logout</a></li>
-                            <li><a href="">Admin</a></li>
+                            <li class="active"><a href="index.php?action=home">Home</a></li>
+                            <li><a href="index.php?action=stage">Stage</a></li>
+                            <li><a href="index.php?action=login">Login</a></li>
+                            <li><a href="index.php?action=logout">Logout</a></li>
+                            <li><a href="index.php?action=admin">Admin</a></li>
                         </ul>
                     </div>
                     <!-- End main navigation -->
