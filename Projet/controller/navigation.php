@@ -9,17 +9,16 @@
  * @param $nav /definit la page a charger
  * @return void
  */
-function navigation($nav)
+function displayStage()
 {
-    switch ($nav)
-    {
-        case 'home':
-            require "view/home.php";
-            break;
-        case 'logout':
-            session_destroy();
-            header("Location: index.php"); // Rediriger vers la page d'accueil
-            exit; // Arrêter l'exécution du script
-        case 'login':
+    try {
+        // look for data in db
+        require_once "model/stageManager.php";
+        $stages = getStage();
+    }
+    catch (ModelSataBaseException $ex){
+        $articleErrorMessage="Nous rencontrons temporairement un problème technique";
+    } finally {
+        require"view/home.php";
     }
 }

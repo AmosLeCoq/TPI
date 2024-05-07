@@ -20,3 +20,22 @@ function openDBConnection()
         return null;
     }
 }
+
+/**
+ * Cette fonction exécute une requête de sélection MySQL et retourne tous les résultats
+ * @param $query
+ * @return array|false|null
+ */
+function executeQuerySelect($query){
+    $queryResult = null;
+    $dbConnection = openDBConnection();
+
+    if ($dbConnection != null)
+    {
+        $statement = $dbConnection->prepare($query);
+        $statement->execute();
+        $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC); // Utilisation de PDO::FETCH_ASSOC pour obtenir un tableau associatif
+    }
+    $dbConnection = null;
+    return $queryResult;
+}

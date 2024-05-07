@@ -27,7 +27,30 @@
 /*
 1. General
 **********************************************************************/
- body {
+.stage {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.stage-title {
+    color: #333;
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.stage-description {
+    color: #666;
+    font-size: 16px;
+}
+
+
+
+
+
+
+body {
     font-family:'Roboto', sans-serif;
     color: #FFF;
     line-height:1.2em;
@@ -796,8 +819,13 @@ p {
 3.8 Footer
 ********************************************************************/
  .footer {
-    background: #181A1C;
-    text-align: center;
+     position: absolute;
+     bottom: 0;
+     width: 100%;
+     height: 100px; /* Taille du pied de page */
+     background-color: #000000;
+     text-align: center;
+     padding-top: 20px; /* Ajoute un peu d'espace en haut du pied de page */
 }
 .footer > p {
     color: #fff;

@@ -15,7 +15,7 @@ if (isset($_GET['action']))
     switch ($action)
     {
         case 'home':
-            navigation('home');
+            displayStage();
             break;
         case 'stage':
 
@@ -28,7 +28,7 @@ if (isset($_GET['action']))
             break;
     }
 }else {
-    navigation('home');
+    displayStage();
 }
 
 

@@ -8,7 +8,18 @@ ob_start();
 $title = "Home";
 ?>
 
-<h1>salut</h1>
+<h1>Description des stages</h1>
+
+<?php foreach ($stages as $stage) : ?>
+    <div class="stage">
+        <h2 class="stage-title"><?= $stage['name'] ?></h2>
+        <p class="stage-description"><?= $stage['description'] ?></p>
+    </div>
+    <br>
+<?php endforeach;?>
+
+
+
 
 <?php
 $content = ob_get_clean();
