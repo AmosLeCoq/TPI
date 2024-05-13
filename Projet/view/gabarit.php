@@ -48,9 +48,16 @@
                         <ul class="nav" id="top-navigation">
                             <li class="active"><a href="index.php?action=home">Home</a></li>
                             <li><a href="index.php?action=stage">Stage</a></li>
-                            <li><a href="index.php?action=login">Login</a></li>
-                            <li><a href="index.php?action=logout">Logout</a></li>
-                            <li><a href="index.php?action=admin">Admin</a></li>
+                            <?php if (isset($_SESSION['type'])) : ?>
+                                <li><a href="index.php?action=logout">Logout</a></li>
+                            <?php else : ?>
+                                <li><a href="index.php?action=login">Login</a></li>
+                            <?php endif;?>
+                            <?php if (isset($_SESSION['type'])) : ?>
+                                <?php if ($_SESSION['type']=="admin") : ?>
+                                    <li><a href="index.php?action=admin">Admin</a></li>
+                                <?php endif;?>
+                            <?php endif;?>
                         </ul>
                     </div>
                     <!-- End main navigation -->

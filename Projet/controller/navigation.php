@@ -11,6 +11,16 @@
  */
 function displayStage()
 {
+    if(isset($_GET["recherche"])){
+        try {
+            require_once "model/stageManager.php";
+            $recherche = getRecherche();
+        }
+        catch (ModelSataBaseException $ex){
+            $articleErrorMessage="Nous rencontrons temporairement un problème technique";
+        }
+    }
+
     try {
         // look for data in db
         require_once "model/stageManager.php";

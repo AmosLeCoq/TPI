@@ -5,9 +5,7 @@
  * @version   06.05.2024
  */
 require "controller/navigation.php";
-
-//phpinfo();
-session_start();
+require "controller/users.php";
 
 if (isset($_GET['action']))
 {
@@ -31,4 +29,12 @@ if (isset($_GET['action']))
     displayStage();
 }
 
-
+/**
+ * Premet de ce déconnecter
+ * @return void
+ */
+function logout(){
+    session_destroy();
+    header("Location: index.php"); // Rediriger vers la page d'accueil
+    exit; // Arrêter l'exécution du script
+}
