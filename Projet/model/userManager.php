@@ -11,23 +11,26 @@
  * @param $LoginPassword
  * @return string
  */
-function LoginIsCorrect($LoginUsername, $LoginPassword){
-
+function LoginIsCorrect($LoginUsername, $LoginPassword)
+{
     $result = false;
     $strSeparator = '\'';
-    $loginQuery = 'SELECT email, password, type, account_status FROM dbstage.users WHERE email ='.$strSeparator.$LoginUsername.$strSeparator.' AND password ='.$strSeparator.$LoginPassword.$strSeparator.';';
+    $loginQuery = 'SELECT email, password, type, account_status FROM dbstage.users WHERE email =' . $strSeparator . $LoginUsername . $strSeparator .';';
 
     require_once "dbConnector.php";
     $queryResult = executeQuerySelect($loginQuery);
 
-    if($LoginPassword == $queryResult[0]["password"]){
-        if ($queryResult[0]["account_status"] == 1){
-            if($queryResult[0]["type"] == 1){
-                return "admin";
+    if (isset($queryResult[0])) {
+        if ($LoginPassword == $queryResult[0]["password"]) {
+            if ($queryResult[0]["account_status"] == 1) {
+                if ($queryResult[0]["type"] == 1) {
+                    return "admin";
+                }
+                return "user";
             }
-            return "user";
+            return "inactif";
         }
-        return "Inactif";
+        return "mdpFaux";
     }
-    return "mdpFaux";
+    return "mailFaux";
 }

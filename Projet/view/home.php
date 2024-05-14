@@ -25,9 +25,6 @@ $title = "Home";
     <br>
 <?php endforeach;?>
 
-
-
-
 <?php
 $content = ob_get_clean();
 require "gabarit.php";

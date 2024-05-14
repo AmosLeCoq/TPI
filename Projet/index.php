@@ -16,25 +16,16 @@ if (isset($_GET['action']))
             displayStage();
             break;
         case 'stage':
-
+            mail("amos.lecoq@eduvaud.ch", "Test 1mail", "Test 2mail");
+            echo '<script>alert("mail")</script>';
             break;
         case 'login':
             login($_POST);
             break;
         case 'logout':
-            navigation('logout');
+            logout();
             break;
     }
 }else {
     displayStage();
-}
-
-/**
- * Premet de ce déconnecter
- * @return void
- */
-function logout(){
-    session_destroy();
-    header("Location: index.php"); // Rediriger vers la page d'accueil
-    exit; // Arrêter l'exécution du script
 }
