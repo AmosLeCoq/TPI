@@ -24,9 +24,8 @@ function login($LoginInfo)
         // Gestion de connexion et d'erreur de connexion
         switch($login){
             case "admin":
-                session_start();
                 $_SESSION['type'] = "admin";
-                require "view/admin.php";
+                displayAdmin();
                 exit();
             case "user":
                 session_start();

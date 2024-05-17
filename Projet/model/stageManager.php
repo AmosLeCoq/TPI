@@ -18,7 +18,6 @@ function getStage()
 }
 
 /**
- * e
  *Recherche les stages avec un mot cle
  * @return array|false|null
  */

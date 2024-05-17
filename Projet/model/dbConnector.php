@@ -1,5 +1,11 @@
 <?php
 /**
+ * @file      dbConnector.php
+ * @author    Created by Amos Le Coq
+ * @version   06.05.2024
+ */
+
+/**
  * Ouvre une connexion à la base de données.
  * @return PDO|null
  */
@@ -38,4 +44,26 @@ function executeQuerySelect($query){
     }
     $dbConnection = null;
     return $queryResult;
+}
+
+/**
+ * Execute une commande INSERT
+ * Il y a pas encore la gestion des erreurs
+ * @param $query
+ * @return false|PDOStatement|void|null
+ */
+function executeQueryInsert($query){
+    $dbConnection = openDBConnection();
+
+    if ($dbConnection != null)
+    {
+        try {
+            $statement = $dbConnection->prepare($query);
+            $statement->execute();
+        }catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return null;
+        }
+    }
+    $dbConnection = null;
 }

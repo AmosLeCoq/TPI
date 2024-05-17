@@ -7,6 +7,8 @@
 require "controller/navigation.php";
 require "controller/users.php";
 
+session_start();
+
 if (isset($_GET['action']))
 {
     $action = $_GET['action'];
@@ -16,11 +18,13 @@ if (isset($_GET['action']))
             displayStage();
             break;
         case 'stage':
-            mail("amos.lecoq@eduvaud.ch", "Test 1mail", "Test 2mail");
-            echo '<script>alert("mail")</script>';
+            displayListeStage();
             break;
         case 'login':
             login($_POST);
+            break;
+        case 'admin':
+            displayAdmin();
             break;
         case 'logout':
             logout();
