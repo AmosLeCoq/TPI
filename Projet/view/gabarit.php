@@ -35,7 +35,7 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
-                    <a href="#" class="brand">
+                    <a href="index.php?action=home" class="brand">
                         <img src="view/content/images/CPNV.png" width="120" height="40" alt="Logo" />
                         <!-- This is website logo -->
                     </a>

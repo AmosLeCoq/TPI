@@ -53,7 +53,8 @@ $title = "Administration";
         <input type="hidden" name="action" value="admin">
         <input type="submit">
     </form>
-
+    <br>
+    <br>
 </div>
 
 <?php

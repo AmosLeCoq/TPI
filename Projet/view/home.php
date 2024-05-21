@@ -8,13 +8,6 @@ ob_start();
 $title = "Home";
 ?>
 
-<h3>Recherche de stage</h3>
-<form method="get">
-    <input type="text" name="recherche" placeholder="Recherche">
-    <input type="date" name="date">
-    <input type="submit">
-</form>
-
 <h3>Description des stages</h3>
 
 <?php foreach ($stages as $stage) : ?>

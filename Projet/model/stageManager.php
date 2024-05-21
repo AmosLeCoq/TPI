@@ -18,17 +18,17 @@ function getStage()
 }
 
 /**
- *Recherche les stages avec un mot cle
+ * Retourne les infos des stages
  * @return array|false|null
  */
-function getRecherche(){
+function getListStage()
+{
+    $Query='SELECT name, description, start_date, end_date, start_time, end_time, max_people,number_registrants, branchs_id, status_id, teachers_id FROM dbstage.internships';
 
-    $strSeparator = '\'';
-    $recherche = "'%".$_GET['recherche']."%'";
-
-    $Query='SELECT name, description FROM dbstage.internships WHERE LOWER(description) LIKE LOWER('.$recherche.') OR LOWER(name) LIKE LOWER('.$recherche.') OR branchs_id IN (SELECT id FROM dbstage.branches WHERE LOWER(name) LIKE LOWER('.$recherche.')) OR YEAR(start_date) ='.$recherche.';';
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
 }
 
+function getSearch(){
 
+}

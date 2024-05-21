@@ -11,7 +11,7 @@
  */
 function getBranchs()
 {
-    $Query='SELECT name FROM dbstage.branchs';
+    $Query='SELECT id, name FROM dbstage.branchs';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
@@ -22,7 +22,7 @@ function getBranchs()
  * @return array|false|null
  */
 function getStatus(){
-    $Query='SELECT name FROM dbstage.status';
+    $Query='SELECT id, name FROM dbstage.status';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
@@ -34,7 +34,7 @@ function getStatus(){
  */
 function getEnseignants()
 {
-    $Query='SELECT first_name, last_name FROM dbstage.teachers';
+    $Query='SELECT id, first_name, last_name FROM dbstage.teachers';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);

@@ -18,7 +18,7 @@ if (isset($_GET['action']))
             displayStage();
             break;
         case 'stage':
-            displayListeStage();
+            displayListStage();
             break;
         case 'login':
             login($_POST);
