@@ -77,7 +77,7 @@ function displayAdmin()
  * Permet d'affiche la site de stage dans la page "stage.php"
  * @return void
  */
-function displayListStage()
+function displayListCourse()
 {
     if(isset($_GET["search"])){
         try {
@@ -140,5 +140,18 @@ function displayListStage()
         $articleErrorMessage="Nous rencontrons temporairement un problème technique";
     } finally {
         require"view/stage.php";
+    }
+}
+
+function displayListRegistrer()
+{
+    if(isset($_SESSION["type"])){
+        if($_SESSION["type"]=="user"){
+            require_once "model/userManager.php";
+            $courses = getRegister($_SESSION["mail"]);
+            require "view/courseRegistration.php";
+        }
+    }else{
+        displayStage();
     }
 }

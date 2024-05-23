@@ -18,13 +18,16 @@ if (isset($_GET['action']))
             displayStage();
             break;
         case 'stage':
-            displayListStage();
+            displayListCourse();
             break;
         case 'login':
             login($_POST);
             break;
         case 'admin':
             displayAdmin();
+            break;
+        case 'parent':
+            displayListRegistrer();
             break;
         case 'logout':
             logout();

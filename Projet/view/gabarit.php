@@ -70,6 +70,21 @@
                                     <?php endif;?>
                                 <?php endif;?>
                             <?php endif;?>
+
+                            <?php if($title=="Liste des inscriptions") : ?>
+                                <?php if (isset($_SESSION['type'])) : ?>
+                                    <?php if ($_SESSION['type']=="user") : ?>
+                                        <li class="active"><a href="index.php?action=parent">Inscriptions</a></li>
+                                    <?php endif;?>
+                                <?php endif;?>
+                            <?php else : ?>
+                                <?php if (isset($_SESSION['type'])) : ?>
+                                    <?php if ($_SESSION['type']=="user") : ?>
+                                        <li><a href="index.php?action=parent">Inscription</a></li>
+                                    <?php endif;?>
+                                <?php endif;?>
+                            <?php endif;?>
+
                             <?php if($title=="Login") : ?>
                                     <li class="active"><a href="index.php?action=login">Login</a></li>
                             <?php else : ?>
