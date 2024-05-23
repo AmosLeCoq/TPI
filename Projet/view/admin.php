@@ -50,6 +50,10 @@ $title = "Administration";
         <input type="time" name="heureDebut" required>
         <p>Heure de Fin</p>
         <input type="time" name="heureFin" required>
+        <p>Prix</p>
+        <input type="number" name="prix" required>
+        <p>Nombre de personne max</p>
+        <input type="number" name="max" required>
         <input type="hidden" name="action" value="admin">
         <input type="submit">
     </form>

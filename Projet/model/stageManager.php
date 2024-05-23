@@ -11,7 +11,7 @@
  */
 function getStage()
 {
-    $Query='SELECT name, description FROM dbstage.internships';
+    $Query='SELECT name, description FROM tpi_lqa_dbstage.internships';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
@@ -23,7 +23,7 @@ function getStage()
  */
 function getListStage()
 {
-    $Query='SELECT name, description, start_date, end_date, start_time, end_time, max_people,number_registrants, branchs_id, status_id, teachers_id FROM dbstage.internships';
+    $Query='SELECT id, name, description, start_date, end_date, start_time, end_time, max_people,number_registrants, price, branchs_id, status_id, teachers_id FROM tpi_lqa_dbstage.internships';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);

@@ -11,7 +11,7 @@
  */
 function getBranchs()
 {
-    $Query='SELECT id, name FROM dbstage.branchs';
+    $Query='SELECT id, name FROM tpi_lqa_dbstage.branchs';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
@@ -22,7 +22,7 @@ function getBranchs()
  * @return array|false|null
  */
 function getStatus(){
-    $Query='SELECT id, name FROM dbstage.status';
+    $Query='SELECT id, name FROM tpi_lqa_dbstage.status';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
@@ -34,7 +34,7 @@ function getStatus(){
  */
 function getEnseignants()
 {
-    $Query='SELECT id, first_name, last_name FROM dbstage.teachers';
+    $Query='SELECT id, first_name, last_name FROM tpi_lqa_dbstage.teachers';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
@@ -53,9 +53,9 @@ function getEnseignants()
  * @param $status
  * @return void
  */
-function createStage($nom,$branch,$enseignant,$description,$dateDebut,$dateFin,$heureDebut,$heureFin,$status)
+function createStage($nom,$branch,$enseignant,$description,$dateDebut,$dateFin,$heureDebut,$heureFin,$status,$prix,$max)
 {
-    $Query="INSERT INTO dbstage.internships (name,description,start_date,end_date,start_time,end_time,branchs_id,status_id,teachers_id) VALUES ('".$nom."','".$description."','".$dateDebut."','".$dateFin."','".$heureDebut."','".$heureFin."','".$branch."','".$status."','".$enseignant."');";
+    $Query="INSERT INTO tpi_lqa_dbstage.internships (name,description,start_date,end_date,start_time,end_time,price,max_people,number_registrants,branchs_id,status_id,teachers_id) VALUES ('".$nom."','".$description."','".$dateDebut."','".$dateFin."','".$heureDebut."','".$heureFin."','".$prix."','".$max."','"."0"."','".$branch."','".$status."','".$enseignant."');";
     executeQueryInsert($Query);
 }
 

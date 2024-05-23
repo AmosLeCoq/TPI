@@ -20,16 +20,19 @@ function login($LoginInfo)
         require_once "model/userManager.php";
 
         $login=LoginIsCorrect($LoginUsername, $LoginPassword);
-
+        session_destroy();
         // Gestion de connexion et d'erreur de connexion
         switch($login){
             case "admin":
+                session_start();
                 $_SESSION['type'] = "admin";
+                $_SESSION['mail'] = $LoginInfo['email'];
                 displayAdmin();
                 exit();
             case "user":
                 session_start();
                 $_SESSION['type'] = "user";
+                $_SESSION['mail'] = $LoginInfo['email'];
                 displayStage();
                 exit();
             case "inactif":

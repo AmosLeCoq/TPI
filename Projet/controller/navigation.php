@@ -50,7 +50,7 @@ function displayAdmin()
                     try {
                         require_once "model/adminManager.php";
                         $info["info"]=getInfo($_GET["branch"],$_GET["enseignant"],$_GET["status"]);
-                        createStage($_GET["nomStage"],$info["info"]["branchId"][0]["id"],$info["info"]["enseignantId"][0]["id"],$_GET["description"],$_GET["dateDebut"],$_GET["dateFin"],$_GET["heureDebut"],$_GET["heureFin"],$info["info"]["statusId"][0]["id"]);
+                        createStage($_GET["nomStage"],$info["info"]["branchId"][0]["id"],$info["info"]["enseignantId"][0]["id"],$_GET["description"],$_GET["dateDebut"],$_GET["dateFin"],$_GET["heureDebut"],$_GET["heureFin"],$info["info"]["statusId"][0]["id"],$_GET["prix"],$_GET["max"]);
                     }catch (ModelSataBaseException $ex){
                         $articleErrorMessage = "Nous rencontrons temporairement un problème technique";
                     }
@@ -73,6 +73,10 @@ function displayAdmin()
     }
 }
 
+/**
+ * Permet d'affiche la site de stage dans la page "stage.php"
+ * @return void
+ */
 function displayListStage()
 {
     if(isset($_GET["search"])){
@@ -85,10 +89,19 @@ function displayListStage()
         }
     }
 
+    if(isset($_GET["stage"]) and isset($_GET["child"])){
+        try {
+            require_once "model/userManager.php";
+            registerCourse($_GET["child"],$_GET["stage"]);
 
+
+        }catch (ModelSataBaseException $ex){
+            $articleErrorMessage="Nous rencontrons temporairement un problème technique";
+        }
+    }
 
     try {
-        // look for data in db
+        // recherche les données dans la DB
         require_once "model/stageManager.php";
         $stages = getListStage();
         require_once "model/adminManager.php";
@@ -99,24 +112,29 @@ function displayListStage()
         foreach ($stages as $stage) {
             foreach ($status as $statu){
                 if($stage["status_id"]==$statu["id"]){
-                    //$stage["status_id"]=$statu["name"];
                     $stages[$i]["status_id"]=$statu["name"];
                 }
             }
             foreach ($branchs as $branch){
                 if($stage["branchs_id"]==$branch["id"]){
-                    //$stage["branch_id"]=$branch["name"];
                     $stages[$i]["branchs_id"]=$branch["name"];
                 }
             }
             foreach ($enseignants as $enseignant){
                 if($stage["teachers_id"]==$enseignant["id"]){
-                    //$stage["teachers_id"]=$enseignant["first_name"]."  ".$enseignant["last_name"];
                     $stages[$i]["teachers_id"]=$enseignant["first_name"]."  ".$enseignant["last_name"];
                 }
             }
             $i++;
         }
+
+        if (isset($_SESSION["type"])){
+            if($_SESSION["type"]=="user"){
+                require_once "model/userManager.php";
+                $childs=getChildrens($_SESSION["mail"]);
+            }
+        }
+
     }
     catch (ModelSataBaseException $ex){
         $articleErrorMessage="Nous rencontrons temporairement un problème technique";

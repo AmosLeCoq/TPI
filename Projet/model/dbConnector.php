@@ -12,7 +12,7 @@
 function openDBConnection()
 {
     $serverName = '127.0.0.1'; //l'adresse IP du serveur MySQL
-    $databaseName = 'dbstage';
+    $databaseName = 'tpi_lqa_dbstage';
     $username = 'root';
     $password = 'Pa$$w0rd';
 
@@ -61,7 +61,12 @@ function executeQueryInsert($query){
             $statement = $dbConnection->prepare($query);
             $statement->execute();
         }catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
+            //Met un message si le message d'erreur est le 23000
+            //C'est pour l'inscription à un stage
+            //L'erreur : Déjà inscrit au stage
+            if($e->getCode()==23000){
+                echo '<script type="text/javascript">window.alert("Déjà inscrit à ce stage");</script>';
+            }
             return null;
         }
     }

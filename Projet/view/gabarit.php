@@ -56,6 +56,7 @@
                             <?php else : ?>
                                 <li><a href="index.php?action=stage">Stage</a></li>
                             <?php endif;?>
+
                             <?php if($title=="Administration") : ?>
                                 <?php if (isset($_SESSION['type'])) : ?>
                                     <?php if ($_SESSION['type']=="admin") : ?>
