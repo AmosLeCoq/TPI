@@ -8,6 +8,16 @@ ob_start();
 $title = "Liste des inscriptions";
 ?>
 
+<h2 class="stage-title">Ajouter un enfant :</h2>
+<form method="get">
+    <input type="text" name="first_name" placeholder="Prénom" required>
+    <input type="text" name="last_name" placeholder="Nom" required>
+    <input type="hidden" name="user_mail" value="<?= $_SESSION['mail'] ?>">
+    <input type="hidden" name="action" value="parent">
+    <input type="submit" value="Ajouter">
+</form>
+
+<h2 class="stage-title">Inscription :</h2>
 <?php foreach ($courses as $course) : ?>
     <div class="stage">
         <h2 class="stage-title"><?= $course['stage_name'] ?></h2>

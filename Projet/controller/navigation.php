@@ -44,7 +44,6 @@ function displayAdmin()
     // actuellement si on fait ça sans être connecté on a une redirection à home.php
     if (isset($_SESSION["type"])) {
         if ($_SESSION["type"] == "admin") {
-
              if(isset($_GET["nomStage"]) or isset($_GET["branch"]) or isset($_GET["enseignant"]) or isset($_GET["description"]) or isset($_GET["dateDebut"]) or isset($_GET["dateFin"]) or isset($_GET["heureDebut"]) or isset($_GET["heureFin"])){
                 if(!$_GET["nomStage"]=="" and !$_GET["branch"]=="" and !$_GET["enseignant"]=="" and !$_GET["description"]=="" and !$_GET["dateDebut"]=="" and !$_GET["status"]=="" and !$_GET["dateFin"]=="" and !$_GET["heureDebut"]=="" and !$_GET["heureFin"]==""){
                     try {
@@ -59,6 +58,7 @@ function displayAdmin()
 
             try {
                 require_once "model/adminManager.php";
+                $accounts = getAccountDisabled();
                 $branchs = getBranchs();
                 $enseignants = getEnseignants();
                 $status = getStatus();
@@ -145,6 +145,11 @@ function displayListCourse()
 
 function displayListRegistrer()
 {
+    if(isset($_GET["first_name"]) and isset($_GET["last_name"]) and isset($_GET["user_mail"])){
+        require_once "model/userManager.php";
+        addChild($_GET["first_name"], $_GET["last_name"], $_GET["user_mail"]);
+    }
+
     if(isset($_SESSION["type"])){
         if($_SESSION["type"]=="user"){
             require_once "model/userManager.php";

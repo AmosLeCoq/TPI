@@ -84,3 +84,14 @@ function getInfo($branch,$enseignant,$status){
     $retour["branchId"]=$r3;
     return $retour;
 }
+
+/**
+ * Permet de récupérer les comptes désactivés
+ * @return array|false|null
+ */
+function getAccountDisabled()
+{
+    $query = "SELECT * FROM Users WHERE account_status = 0";
+    require_once "model/dbConnector.php";
+    return executeQuerySelect($query);
+}

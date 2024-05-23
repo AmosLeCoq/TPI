@@ -8,8 +8,23 @@ ob_start();
 $title = "Administration";
 ?>
 
+<?php if ($accounts!=null) : ?>
+    <div>
+        <h3>Activation de compte</h3>
+        <?php foreach ($accounts as $account) : ?>
+            <div>
+                <p class="stage-description">Nom : <?= $account['last_name'] ?></p>
+                <p class="stage-description">Prénom : <?= $account['first_name'] ?></p>
+                <p class="stage-description">Email : <?= $account['email'] ?></p>
+            </div>
+        <?php endforeach;?>
+    </div>
+    <hr>
+<?php endif;?>
+
+
 <div>
-<h3>Gestion de Stage</h3>
+    <h3>Gestion de Stage</h3>
     <form method="get">
         <input type="text" name="nomStage" placeholder="Nom du stage" required>
 

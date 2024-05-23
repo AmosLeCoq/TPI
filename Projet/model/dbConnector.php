@@ -62,10 +62,9 @@ function executeQueryInsert($query){
             $statement->execute();
         }catch (PDOException $e) {
             //Met un message si le message d'erreur est le 23000
-            //C'est pour l'inscription à un stage
-            //L'erreur : Déjà inscrit au stage
+            //Erreur en cas de double
             if($e->getCode()==23000){
-                echo '<script type="text/javascript">window.alert("Déjà inscrit à ce stage");</script>';
+                echo '<script type="text/javascript">window.alert("Déjà existant");</script>';
             }
             return null;
         }
