@@ -10,10 +10,15 @@ $title = "Stage";
 ?>
 
 <form method="get">
-    <input type="button" name="">
-<?php foreach ($branchs as $branch) : ?>
 
-<?php endforeach;?>
+    <?php foreach ($branchs as $branch) : ?>
+        <input type="hidden" name="action" value="stage">
+        <input type="submit" name="filter" value="<?= $branch['name'] ?>">
+    <?php endforeach;?>
+
+</form>
+
+
     <h3>Recherche de stage</h3>
     <form method="get">
         <input type="text" name="search" placeholder="Recherche">

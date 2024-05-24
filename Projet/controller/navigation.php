@@ -95,16 +95,6 @@ function displayListCourse()
         }
     }
 
-    if(isset($_GET["search"])){
-        try {
-            require_once "model/stageManager.php";
-            $recherche = getSearch();
-        }
-        catch (ModelSataBaseException $ex){
-            $articleErrorMessage="Nous rencontrons temporairement un problème technique";
-        }
-    }
-
     if(isset($_GET["stage"]) and isset($_GET["child"])){
         try {
             require_once "model/userManager.php";
@@ -118,8 +108,14 @@ function displayListCourse()
 
     try {
         // recherche les données dans la DB
-        require_once "model/stageManager.php";
-        $stages = getListStage();
+        if(isset($_GET["filter"])){
+            require_once "model/stageManager.php";
+            $stages = getListStage($_GET["filter"]);
+        }else{
+            require_once "model/stageManager.php";
+            $stages = getListStage();
+        }
+
         require_once "model/adminManager.php";
         $status = getStatus();
         $branchs = getBranchs();

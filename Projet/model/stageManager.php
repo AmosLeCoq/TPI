@@ -21,16 +21,26 @@ function getStage()
  * Retourne les infos des stages
  * @return array|false|null
  */
-function getListStage()
+function getListStage($branchName = "")
 {
-    $Query='SELECT id, name, description, start_date, end_date, start_time, end_time, max_people,number_registrants, price, branchs_id, status_id, teachers_id FROM tpi_lqa_dbstage.internships';
+    $query = 'SELECT id, name, description, start_date, end_date, start_time, end_time, max_people, number_registrants, price, branchs_id, status_id, teachers_id FROM tpi_lqa_dbstage.internships';
+
+    // Ajout du filtre si une valeur est fournie
+    if (!empty($branchName)) {
+        $query .= " WHERE branchs_id = (SELECT id FROM tpi_lqa_dbstage.branchs WHERE name = '$branchName')";
+    }
+
     require_once 'model/dbConnector.php';
-    return executeQuerySelect($Query);
+
+    // Si un filtre est fourni, exécuter la requête avec le paramètre lié
+    if (!empty($branchName)) {
+        return executeQuerySelect($query, array(':branchName' => $branchName));
+    } else {
+        // Sinon, exécuter la requête sans paramètres
+        return executeQuerySelect($query);
+    }
 }
 
-function getSearch(){
-
-}
 
 function setStage($stage,$statu)
 {
