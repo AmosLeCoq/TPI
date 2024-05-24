@@ -13,9 +13,16 @@ $title = "Administration";
         <h3>Activation de compte</h3>
         <?php foreach ($accounts as $account) : ?>
             <div>
+                <hr>
                 <p class="stage-description">Nom : <?= $account['last_name'] ?></p>
                 <p class="stage-description">Prénom : <?= $account['first_name'] ?></p>
                 <p class="stage-description">Email : <?= $account['email'] ?></p>
+                <form method="get">
+                    <input type="hidden" name="parent" value="<?= $account['email'] ?>">
+                    <input type="hidden" name="action" value="admin">
+                    <input type="submit" name="answer" value="Accepter">
+                    <input type="submit" name="answer" value="Refuser">
+                </form>
             </div>
         <?php endforeach;?>
     </div>

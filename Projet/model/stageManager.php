@@ -24,11 +24,18 @@ function getStage()
 function getListStage()
 {
     $Query='SELECT id, name, description, start_date, end_date, start_time, end_time, max_people,number_registrants, price, branchs_id, status_id, teachers_id FROM tpi_lqa_dbstage.internships';
-
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
 }
 
 function getSearch(){
 
+}
+
+function setStage($stage,$statu)
+{
+    $statu = addslashes($statu);
+    $query = "UPDATE tpi_lqa_dbstage.internships SET status_id = (SELECT id FROM tpi_lqa_dbstage.status WHERE name = '$statu') WHERE id = '$stage';";
+    require_once "model/dbConnector.php";
+    executeQueryUpdate($query);
 }

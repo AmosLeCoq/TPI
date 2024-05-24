@@ -33,8 +33,9 @@ $title = "Stage";
         <p class="stage-description"><?= $stage['number_registrants'] ?>/<?= $stage['max_people'] ?> Personnes</p>
         <p class="stage-description">Prix : <?= $stage['price'] ?> CHF</p>
 
-        <!-- Gestion des inscriptions pour les parents -->
+
         <?php if (isset($_SESSION['type'])) : ?>
+            <!-- Gestion des inscriptions pour les parents -->
             <?php if ($_SESSION['type']=="user") : ?>
                 <form method="get">
                     <input type="hidden" name="stage" value="<?= $stage['id'] ?>">
@@ -47,6 +48,20 @@ $title = "Stage";
                     </select><br>
                     <input type="hidden" name="action" value="stage">
                     <input type="submit" value="Inscrire">
+                </form>
+            <?php endif;?>
+            <!-- Gestion des status pour les admins -->
+            <?php if ($_SESSION['type']=="admin") : ?>
+                <form method="get">
+                    <label for="pet-select" class="stage-description">Changer le status:</label>
+                    <select name="mv-status" id="status-select">
+                        <?php foreach ($status as $statu) : ?>
+                            <option value="<?= $statu["name"] ?>"><?= $statu["name"] ?></option>
+                        <?php endforeach;?>
+                    </select>
+                    <input type="hidden" name="action" value="stage">
+                    <input type="hidden" name="stage" value=<?= $stage["id"] ?>>
+                    <input type="submit" value="Changer">
                 </form>
             <?php endif;?>
         <?php endif;?>

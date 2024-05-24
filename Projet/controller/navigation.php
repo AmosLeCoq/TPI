@@ -39,6 +39,15 @@ function displayStage()
  */
 function displayAdmin()
 {
+    if(isset($_GET["answer"]) and isset($_GET["parent"])){
+        if($_GET["answer"]=="Accepter"){
+            require_once "model/userManager.php";
+            addParent($_GET["parent"]);
+        }elseif ($_GET["answer"]=="Refuser"){
+            require_once "model/userManager.php";
+            rmParent($_GET["parent"]);
+        }
+    }
     // fait une sécurité pour la connexion à la page admin
     // problème corrigé : si on met dans la variable global GET["action"] = "admin" on pouvait accéder à la page "admin.php" sans être admin
     // actuellement si on fait ça sans être connecté on a une redirection à home.php
@@ -79,6 +88,13 @@ function displayAdmin()
  */
 function displayListCourse()
 {
+    if(isset($_GET["mv-status"]) and isset($_GET["stage"])){
+        if ($_SESSION["type"] == "admin") {
+            require_once "model/stageManager.php";
+            setStage($_GET["stage"], $_GET["mv-status"]);
+        }
+    }
+
     if(isset($_GET["search"])){
         try {
             require_once "model/stageManager.php";

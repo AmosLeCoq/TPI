@@ -60,6 +60,7 @@ function executeQueryInsert($query){
         try {
             $statement = $dbConnection->prepare($query);
             $statement->execute();
+            echo '<script type="text/javascript">window.alert("Réussi");</script>';
         }catch (PDOException $e) {
             //Met un message si le message d'erreur est le 23000
             //Erreur en cas de double
@@ -67,6 +68,48 @@ function executeQueryInsert($query){
                 echo '<script type="text/javascript">window.alert("Déjà existant");</script>';
             }
             return null;
+        }
+    }
+    $dbConnection = null;
+}
+
+/**
+ * Exécute une commande UPDATE
+ * @param string $query La requête SQL UPDATE à exécuter
+ * @return void
+ */
+function executeQueryUpdate($query){
+    $dbConnection = openDBConnection();
+
+    if ($dbConnection != null)
+    {
+        try {
+            $statement = $dbConnection->prepare($query);
+            $statement->execute();
+            echo '<script type="text/javascript">window.alert("Réussi");</script>';
+        } catch (PDOException $e) {
+            echo "Update failed: " . $e->getMessage(); // Gestion des erreurs
+        }
+    }
+    $dbConnection = null;
+}
+
+/**
+ * Exécute une commande DELETE
+ * @param string $query La requête SQL DELETE à exécuter
+ * @return void
+ */
+function executeQueryDelete($query){
+    $dbConnection = openDBConnection();
+
+    if ($dbConnection != null)
+    {
+        try {
+            $statement = $dbConnection->prepare($query);
+            $statement->execute();
+            echo '<script type="text/javascript">window.alert("Réussi");</script>';
+        } catch (PDOException $e) {
+            echo "Delete failed: " . $e->getMessage(); // Gestion des erreurs
         }
     }
     $dbConnection = null;

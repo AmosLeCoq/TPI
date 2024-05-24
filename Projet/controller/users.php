@@ -12,6 +12,18 @@
  */
 function login($LoginInfo)
 {
+    if(isset($LoginInfo["last_name"]) and isset($LoginInfo["first_name"]) and isset($LoginInfo["email"]) and isset($LoginInfo["password"])){
+        $accountPass = $LoginInfo["password"];
+        $accountPass = hash('sha256',$accountPass);
+
+        $accountMail = $LoginInfo["email"];
+        $first_name = $LoginInfo["first_name"];
+        $last_name = $LoginInfo["last_name"];
+
+        require_once "model/userManager.php";
+        createParent($first_name,$last_name,$accountMail,$accountPass);
+    }
+
     if(isset($LoginInfo['email']) && isset($LoginInfo['userPswd'])){
         $LoginUsername = $LoginInfo['email'];
         $LoginPassword = $LoginInfo['userPswd'];

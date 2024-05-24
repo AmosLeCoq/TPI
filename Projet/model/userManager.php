@@ -37,9 +37,7 @@ function LoginIsCorrect($LoginUsername, $LoginPassword)
 function getChildrens($mail)
 {
     $strSeparator = '\'';
-    $Query = 'SELECT c.* FROM tpi_lqa_dbstage.childs c JOIN tpi_lqa_dbstage.Users u ON c.Users_id = u.id WHERE u.email =' . $strSeparator . $mail . $strSeparator .';';
-    // Executez votre requête ici et stockez le résultat dans la variable $result
-    // Assurez-vous d'adapter cette partie selon le système de base de données que vous utilisez (MySQL, etc.)
+    $Query = 'SELECT c.* FROM tpi_lqa_dbstage.childs c JOIN tpi_lqa_dbstage.Users u ON c.Users_id = u.id WHERE u.email ='. $strSeparator . $mail . $strSeparator .';';
     require_once "dbConnector.php";
     return executeQuerySelect($Query);
 }
@@ -65,9 +63,47 @@ function getRegister($mail)
     return executeQuerySelect($query);
 }
 
+/**
+ * Ajoute un enfant à un compte parent
+ * @param $first_name
+ * @param $last_name
+ * @param $mail
+ * @return void
+ */
 function addChild($first_name,$last_name,$mail)
 {
     $query = "INSERT INTO childs (first_name, last_name, Users_id) SELECT '$first_name', '$last_name', id FROM Users WHERE email = '$mail';";
+    require_once "dbConnector.php";
+    executeQueryInsert($query);
+}
+
+/**
+ * Premet d'acctiver un compte parent
+ * @param $mail
+ * @return void
+ */
+function addParent($mail)
+{
+    $query = "UPDATE Users SET account_status = 1 WHERE email = '$mail';";
+    require_once "dbConnector.php";
+    executeQueryUpdate($query);
+}
+
+/**
+ * Premet de supprimer un utilisateur à partir de son mail
+ * @param $mail
+ * @return void
+ */
+function rmParent($mail)
+{
+    $query = "DELETE FROM tpi_lqa_dbstage.Users WHERE email = '$mail';";
+    require_once "dbConnector.php";
+    executeQueryDelete($query);
+}
+
+function createParent($first_name,$last_name,$mail,$password)
+{
+    $query = "INSERT INTO tpi_lqa_dbstage.Users (first_name, last_name, email, type, account_status, password) VALUES ('$first_name', '$last_name', '$mail', 0, 0, '$password');";
     require_once "dbConnector.php";
     executeQueryInsert($query);
 }
