@@ -108,9 +108,14 @@ function displayListCourse()
 
     try {
         // recherche les données dans la DB
-        if(isset($_GET["filter"])){
-            require_once "model/stageManager.php";
-            $stages = getListStage($_GET["filter"]);
+        if(isset($_GET["filter"]) or isset($_GET["year"])){
+            if(isset($_GET["filter"])){
+                require_once "model/stageManager.php";
+                $stages = getListStage($_GET["filter"]);
+            }else{
+                require_once "model/stageManager.php";
+                $stages = getListStage(null,$_GET["year"]);
+            }
         }else{
             require_once "model/stageManager.php";
             $stages = getListStage();

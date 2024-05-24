@@ -10,14 +10,16 @@ $title = "Stage";
 ?>
 
 <form method="get">
-
+    <input type="submit" name="filter" value="">
     <?php foreach ($branchs as $branch) : ?>
         <input type="hidden" name="action" value="stage">
         <input type="submit" name="filter" value="<?= $branch['name'] ?>">
     <?php endforeach;?>
+    <br><br>
+    <input type="number" name="year" placeholder="Année">
+    <input type="submit" value="Filtrer">
 
 </form>
-
 
     <h3>Recherche de stage</h3>
     <form method="get">

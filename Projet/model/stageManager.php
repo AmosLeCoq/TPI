@@ -21,7 +21,7 @@ function getStage()
  * Retourne les infos des stages
  * @return array|false|null
  */
-function getListStage($branchName = "")
+function getListStage($branchName = "",$year= "")
 {
     $query = 'SELECT id, name, description, start_date, end_date, start_time, end_time, max_people, number_registrants, price, branchs_id, status_id, teachers_id FROM tpi_lqa_dbstage.internships';
 
@@ -30,15 +30,22 @@ function getListStage($branchName = "")
         $query .= " WHERE branchs_id = (SELECT id FROM tpi_lqa_dbstage.branchs WHERE name = '$branchName')";
     }
 
+    if (!empty($year)) {
+        $query .= " WHERE YEAR(start_date) = '$year'";
+    }
+
     require_once 'model/dbConnector.php';
 
-    // Si un filtre est fourni, exécuter la requête avec le paramètre lié
+    $params = array();
     if (!empty($branchName)) {
-        return executeQuerySelect($query, array(':branchName' => $branchName));
-    } else {
-        // Sinon, exécuter la requête sans paramètres
-        return executeQuerySelect($query);
+        $params[':branchName'] = $branchName;
     }
+    if (!empty($year)) {
+        $params[':year'] = $year;
+    }
+    // Sinon, exécuter la requête sans paramètres
+    return executeQuerySelect($query);
+
 }
 
 
