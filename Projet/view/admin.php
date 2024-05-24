@@ -8,26 +8,29 @@ ob_start();
 $title = "Administration";
 ?>
 
-<?php if ($accounts!=null) : ?>
-    <div>
-        <h3>Activation de compte</h3>
-        <?php foreach ($accounts as $account) : ?>
-            <div>
-                <hr>
-                <p class="stage-description">Nom : <?= $account['last_name'] ?></p>
-                <p class="stage-description">Prénom : <?= $account['first_name'] ?></p>
-                <p class="stage-description">Email : <?= $account['email'] ?></p>
-                <form method="get">
-                    <input type="hidden" name="parent" value="<?= $account['email'] ?>">
-                    <input type="hidden" name="action" value="admin">
-                    <input type="submit" name="answer" value="Accepter">
-                    <input type="submit" name="answer" value="Refuser">
-                </form>
-            </div>
-        <?php endforeach;?>
-    </div>
-    <hr>
+<?php if (isset($accounts)) : ?>
+    <?php if ($accounts!=null) :     ?>
+        <div>
+            <h3>Activation de compte</h3>
+            <?php foreach ($accounts as $account) : ?>
+                <div>
+                    <hr>
+                    <p class="stage-description">Nom : <?= $account['last_name'] ?></p>
+                    <p class="stage-description">Prénom : <?= $account['first_name'] ?></p>
+                    <p class="stage-description">Email : <?= $account['email'] ?></p>
+                    <form method="get">
+                        <input type="hidden" name="parent" value="<?= $account['email'] ?>">
+                        <input type="hidden" name="action" value="admin">
+                        <input type="submit" name="answer" value="Accepter">
+                        <input type="submit" name="answer" value="Refuser">
+                    </form>
+                </div>
+            <?php endforeach;?>
+        </div>
+        <hr>
+    <?php endif;?>
 <?php endif;?>
+
 
 
 <div>
@@ -38,6 +41,7 @@ $title = "Administration";
         <label for="branch-select">Choisissez une branche:</label>
         <select name="branch" required id="branch-select">
             <option value="">--Choisissez une branche--</option>
+
             <?php foreach ($branchs as $branch) : ?>
                 <option value="<?= $branch["name"] ?>"><?= $branch["name"] ?></option>
             <?php endforeach;?>

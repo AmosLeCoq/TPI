@@ -9,6 +9,7 @@ ob_start();
 $title = "Stage";
 ?>
 
+<h3>Recherche de stage</h3>
 <form method="get">
     <input type="submit" name="filter" value="">
     <?php foreach ($branchs as $branch) : ?>
@@ -21,12 +22,7 @@ $title = "Stage";
 
 </form>
 
-    <h3>Recherche de stage</h3>
-    <form method="get">
-        <input type="text" name="search" placeholder="Recherche">
-        <input type="date" name="date">
-        <input type="submit">
-    </form>
+
 
 <?php foreach ($stages as $stage) : ?>
     <div class="stage">
