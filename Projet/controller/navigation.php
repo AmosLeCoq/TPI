@@ -42,9 +42,11 @@ function displayAdmin()
     if(isset($_GET["answer"]) and isset($_GET["parent"])){
         if($_GET["answer"]=="Accepter"){
             require_once "model/userManager.php";
+            sendMailTo($_GET["parent"],"Bonjour\nVous avez été accepter pour être parent sur le site : tpilqa.mycpnv.ch","Demande pour être parent sur le site : tpilqa.mycpnv.ch");
             addParent($_GET["parent"]);
-        }elseif ($_GET["answer"]=="Refuser"){
+            }elseif ($_GET["answer"]=="Refuser"){
             require_once "model/userManager.php";
+            sendMailTo($_GET["parent"],"Bonjour\nVous avez été refuser pour être parent sur le site : tpilqa.mycpnv.ch","Demande pour être parent sur le site : tpilqa.mycpnv.ch");
             rmParent($_GET["parent"]);
         }
     }
@@ -90,6 +92,14 @@ function displayListCourse()
 {
     if(isset($_GET["mv-status"]) and isset($_GET["stage"])){
         if ($_SESSION["type"] == "admin") {
+            //Envoi de mail aux parents
+            require_once "model/userManager.php";
+            $inscriptions = getParent($_GET["stage"]);
+            foreach ($inscriptions as $inscription){
+                $msg = "Le status du stage ".$_GET["nom"]." Pour le ".$_GET["date"]." est :".$_GET["mv-status"];
+                require_once "model/userManager.php";
+                sendMailTo($inscription["parent_email"],$msg,"Changement du status du stage ".$_GET["nom"]);
+            }
             require_once "model/stageManager.php";
             setStage($_GET["stage"], $_GET["mv-status"]);
         }

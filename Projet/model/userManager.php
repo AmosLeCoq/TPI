@@ -101,9 +101,56 @@ function rmParent($mail)
     executeQueryDelete($query);
 }
 
+/**
+ * Ajoute un parent à la DB
+ * @param $first_name
+ * @param $last_name
+ * @param $mail
+ * @param $password
+ * @return void
+ */
 function createParent($first_name,$last_name,$mail,$password)
 {
     $query = "INSERT INTO tpi_lqa_dbstage.Users (first_name, last_name, email, type, account_status, password) VALUES ('$first_name', '$last_name', '$mail', 0, 0, '$password');";
     require_once "dbConnector.php";
     executeQueryInsert($query);
+}
+
+/**
+ * Permet d'envoyer un mail
+ * @param $mail
+ * @param $msg
+ * @param $subject
+ * @return void
+ */
+function sendMailTo($mail,$msg,$subject)
+{
+    // Paramètres SMTP de SwissCenter
+    $smtpHost = 'mail01.swisscenter.com'; // Remplacez par le serveur SMTP de SwissCenter
+    $smtpUsername = 'testmail@tpilqa.mycpnv.ch'; // Remplacez par votre nom d'utilisateur SMTP
+    $smtpPort = 587; // Le port SMTP utilisé par SwissCenter (peut varier, vérifiez avec SwissCenter)
+
+    // Destinataire et autres détails de l'e-mail
+    $to = $mail;
+    $headers = "Content-Type: text/plain; charset=UTF-8\r\n";
+
+    // Configuration des paramètres pour la fonction mail()
+    ini_set("SMTP", $smtpHost);
+    ini_set("smtp_port", $smtpPort);
+    ini_set("sendmail_from", $smtpUsername);
+
+
+    mail($to, $subject, $msg, $headers);
+}
+
+/**
+ * Retourne toutes les inscriptions à un stage
+ * @param $stage
+ * @return void
+ */
+function getParent($stage)
+{
+    $query = "SELECT u.id AS parent_id, u.first_name AS parent_first_name, u.last_name AS parent_last_name, u.email AS parent_email, c.id AS child_id, c.first_name AS child_first_name, c.last_name AS child_last_name FROM Users u INNER JOIN childs c ON u.id = c.Users_id INNER JOIN childs_register_internships cri ON c.id = cri.childs_id INNER JOIN internships i ON cri.internships_id = i.id WHERE i.id = '$stage';";
+    require_once "dbConnector.php";
+    return executeQuerySelect($query);
 }

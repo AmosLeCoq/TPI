@@ -62,6 +62,8 @@ $title = "Stage";
                             <option value="<?= $statu["name"] ?>"><?= $statu["name"] ?></option>
                         <?php endforeach;?>
                     </select>
+                    <input type="hidden" name="nom" value="<?= $stage["name"] ?>">
+                    <input type="hidden" name="date" value="<?= $stage["start_date"] ?>">
                     <input type="hidden" name="action" value="stage">
                     <input type="hidden" name="stage" value=<?= $stage["id"] ?>>
                     <input type="submit" value="Changer">

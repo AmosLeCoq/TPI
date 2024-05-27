@@ -48,7 +48,11 @@ function getListStage($branchName = "",$year= "")
 
 }
 
-
+/**Permet de changer le status d'un stage
+ * @param $stage
+ * @param $statu
+ * @return void
+ */
 function setStage($stage,$statu)
 {
     $statu = addslashes($statu);
