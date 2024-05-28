@@ -39,23 +39,42 @@ function displayStage()
  */
 function displayAdmin()
 {
-    if(isset($_GET["answer"]) and isset($_GET["parent"])){
-        if($_GET["answer"]=="Accepter"){
-            require_once "model/userManager.php";
-            sendMailTo($_GET["parent"],"Bonjour\nVous avez été accepter pour être parent sur le site : tpilqa.mycpnv.ch","Demande pour être parent sur le site : tpilqa.mycpnv.ch");
-            addParent($_GET["parent"]);
-            }elseif ($_GET["answer"]=="Refuser"){
-            require_once "model/userManager.php";
-            sendMailTo($_GET["parent"],"Bonjour\nVous avez été refuser pour être parent sur le site : tpilqa.mycpnv.ch","Demande pour être parent sur le site : tpilqa.mycpnv.ch");
-            rmParent($_GET["parent"]);
-        }
-    }
     // fait une sécurité pour la connexion à la page admin
     // problème corrigé : si on met dans la variable global GET["action"] = "admin" on pouvait accéder à la page "admin.php" sans être admin
     // actuellement si on fait ça sans être connecté on a une redirection à home.php
     if (isset($_SESSION["type"])) {
         if ($_SESSION["type"] == "admin") {
-             if(isset($_GET["nomStage"]) or isset($_GET["branch"]) or isset($_GET["enseignant"]) or isset($_GET["description"]) or isset($_GET["dateDebut"]) or isset($_GET["dateFin"]) or isset($_GET["heureDebut"]) or isset($_GET["heureFin"])){
+            //Gestion de CRUD pour les enseignants
+            if(isset($_POST["type"])){
+                switch ($_POST["type"]){
+                    case "create":
+                        require_once "model/userManager.php";
+                        createTeacher($_POST["prenom"],$_POST["nom"],$_POST["email"]);
+                        break;
+                    case "modify":
+                        require_once "model/userManager.php";
+                        modifyTeacher($_POST["newFirstName"],$_POST["newName"],$_POST["newEmail"],$_POST["oldEmail"]);
+                        break;
+                    case "delete":
+                        require_once "model/userManager.php";
+                        deleteTeacher($_POST["emailToDelete"]);
+                        break;
+                }
+            }
+            //Active ou désactive un compte parent et envoi un mail
+            if(isset($_GET["answer"]) and isset($_GET["parent"])){
+                if($_GET["answer"]=="Accepter"){
+                    require_once "model/userManager.php";
+                    sendMailTo($_GET["parent"],"Bonjour\nVous avez été accepter pour être parent sur le site : tpilqa.mycpnv.ch","Demande pour être parent sur le site : tpilqa.mycpnv.ch");
+                    addParent($_GET["parent"]);
+                }elseif ($_GET["answer"]=="Refuser"){
+                    require_once "model/userManager.php";
+                    sendMailTo($_GET["parent"],"Bonjour\nVous avez été refuser pour être parent sur le site : tpilqa.mycpnv.ch","Demande pour être parent sur le site : tpilqa.mycpnv.ch");
+                    rmParent($_GET["parent"]);
+                }
+            }
+            //Crée un stage
+            if(isset($_GET["nomStage"]) or isset($_GET["branch"]) or isset($_GET["enseignant"]) or isset($_GET["description"]) or isset($_GET["dateDebut"]) or isset($_GET["dateFin"]) or isset($_GET["heureDebut"]) or isset($_GET["heureFin"])){
                 if(!$_GET["nomStage"]=="" and !$_GET["branch"]=="" and !$_GET["enseignant"]=="" and !$_GET["description"]=="" and !$_GET["dateDebut"]=="" and !$_GET["status"]=="" and !$_GET["dateFin"]=="" and !$_GET["heureDebut"]=="" and !$_GET["heureFin"]==""){
                     try {
                         require_once "model/adminManager.php";
@@ -96,10 +115,14 @@ function displayListCourse()
             require_once "model/userManager.php";
             $inscriptions = getParent($_GET["stage"]);
             foreach ($inscriptions as $inscription){
-                $msg = "Le status du stage ".$_GET["nom"]." Pour le ".$_GET["date"]." est :".$_GET["mv-status"];
+                $msg = "Bonjour,\nLe statut du stage : ".$_GET["nom"]."\nPour le : ".$_GET["date"]."\nA changé en : ".$_GET["mv-status"];
                 require_once "model/userManager.php";
-                sendMailTo($inscription["parent_email"],$msg,"Changement du status du stage ".$_GET["nom"]);
+                sendMailTo($inscription["parent_email"],$msg,"Changement du statut du stage : ".$_GET["nom"]);
             }
+            //Envoi du mail à l'enseignant
+            require_once "model/userManager.php";
+            sendMailTo($_GET["enseignant_mail"],"Bonjour,\nLe status du stage : ".$_GET["nom"]."\nA changer de statut : ".$_GET["mv-status"],"Changement du statut du stage : ".$_GET["nom"]);
+
             require_once "model/stageManager.php";
             setStage($_GET["stage"], $_GET["mv-status"]);
         }
@@ -109,8 +132,6 @@ function displayListCourse()
         try {
             require_once "model/userManager.php";
             registerCourse($_GET["child"],$_GET["stage"]);
-
-
         }catch (ModelSataBaseException $ex){
             $articleErrorMessage="Nous rencontrons temporairement un problème technique";
         }
@@ -151,6 +172,7 @@ function displayListCourse()
                 if($stage["teachers_id"]==$enseignant["id"]){
                     $stages[$i]["teachers_id"]=$enseignant["first_name"]."  ".$enseignant["last_name"];
                 }
+                $stages[$i]["teacher_mail"]=$enseignant["email"];
             }
             $i++;
         }

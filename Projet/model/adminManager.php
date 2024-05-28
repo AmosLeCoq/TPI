@@ -34,7 +34,7 @@ function getStatus(){
  */
 function getEnseignants()
 {
-    $Query='SELECT id, first_name, last_name FROM tpi_lqa_dbstage.teachers';
+    $Query='SELECT id, first_name, last_name, email FROM tpi_lqa_dbstage.teachers';
 
     require_once 'model/dbConnector.php';
     return executeQuerySelect($Query);
@@ -91,7 +91,7 @@ function getInfo($branch,$enseignant,$status){
  */
 function getAccountDisabled()
 {
-    $query = "SELECT * FROM Users WHERE account_status = 0";
+    $query = "SELECT * FROM users WHERE account_status = 0";
     require_once "model/dbConnector.php";
     return executeQuerySelect($query);
 }

@@ -28,7 +28,7 @@ $title = "Stage";
     <div class="stage">
         <h2 class="stage-title"><?= $stage['name'] ?></h2>
         <p class="stage-description">Branche : <?= $stage['branchs_id'] ?></p>
-        <p class="stage-description">Status : <?= $stage['status_id'] ?></p>
+        <p class="stage-description">Statut : <?= $stage['status_id'] ?></p>
         <p class="stage-description">Enseignant : <?= $stage['teachers_id'] ?></p>
         <p class="stage-description">Description : <?= $stage['description'] ?></p>
         <p class="stage-description">Du <?= $stage['start_date'] ?> au <?= $stage['end_date'] ?></p>
@@ -56,7 +56,7 @@ $title = "Stage";
             <!-- Gestion des status pour les admins -->
             <?php if ($_SESSION['type']=="admin") : ?>
                 <form method="get">
-                    <label for="pet-select" class="stage-description">Changer le status:</label>
+                    <label for="stage-select" class="stage-description">Changer le status:</label>
                     <select name="mv-status" id="status-select">
                         <?php foreach ($status as $statu) : ?>
                             <option value="<?= $statu["name"] ?>"><?= $statu["name"] ?></option>
@@ -64,6 +64,7 @@ $title = "Stage";
                     </select>
                     <input type="hidden" name="nom" value="<?= $stage["name"] ?>">
                     <input type="hidden" name="date" value="<?= $stage["start_date"] ?>">
+                    <input type="hidden" name="enseignant_mail" value="<?= $stage["teacher_mail"] ?>">
                     <input type="hidden" name="action" value="stage">
                     <input type="hidden" name="stage" value=<?= $stage["id"] ?>>
                     <input type="submit" value="Changer">

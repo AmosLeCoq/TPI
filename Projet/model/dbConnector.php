@@ -88,7 +88,9 @@ function executeQueryUpdate($query){
             $statement->execute();
             echo '<script type="text/javascript">window.alert("Réussi");</script>';
         } catch (PDOException $e) {
-            echo "Update failed: " . $e->getMessage(); // Gestion des erreurs
+            if($e->getCode()=="HY000"){
+                echo '<script type="text/javascript">window.alert("Email pas existant");</script>';
+            }
         }
     }
     $dbConnection = null;

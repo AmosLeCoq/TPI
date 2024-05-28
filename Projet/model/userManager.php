@@ -37,7 +37,7 @@ function LoginIsCorrect($LoginUsername, $LoginPassword)
 function getChildrens($mail)
 {
     $strSeparator = '\'';
-    $Query = 'SELECT c.* FROM tpi_lqa_dbstage.childs c JOIN tpi_lqa_dbstage.Users u ON c.Users_id = u.id WHERE u.email ='. $strSeparator . $mail . $strSeparator .';';
+    $Query = 'SELECT c.* FROM tpi_lqa_dbstage.childs c JOIN tpi_lqa_dbstage.users u ON c.users_id = u.id WHERE u.email ='. $strSeparator . $mail . $strSeparator .';';
     require_once "dbConnector.php";
     return executeQuerySelect($Query);
 }
@@ -58,7 +58,7 @@ function registerCourse($child,$course)
 
 function getRegister($mail)
 {
-    $query = "SELECT i.name AS stage_name, i.start_date, i.end_date, i.start_time, i.end_time, i.price, s.name AS status, c.first_name AS child_first_name, c.last_name AS child_last_name FROM internships i JOIN childs_register_internships cri ON i.id = cri.internships_id JOIN childs c ON cri.childs_id = c.id JOIN Users u ON c.Users_id = u.id JOIN status s ON i.status_id = s.id WHERE u.email = '$mail' ORDER BY c.first_name, c.last_name;";
+    $query = "SELECT i.name AS stage_name, i.start_date, i.end_date, i.start_time, i.end_time, i.price, s.name AS status, c.first_name AS child_first_name, c.last_name AS child_last_name FROM internships i JOIN childs_register_internships cri ON i.id = cri.internships_id JOIN childs c ON cri.childs_id = c.id JOIN users u ON c.users_id = u.id JOIN status s ON i.status_id = s.id WHERE u.email = '$mail' ORDER BY c.first_name, c.last_name;";
     require_once "dbConnector.php";
     return executeQuerySelect($query);
 }
@@ -72,7 +72,7 @@ function getRegister($mail)
  */
 function addChild($first_name,$last_name,$mail)
 {
-    $query = "INSERT INTO childs (first_name, last_name, Users_id) SELECT '$first_name', '$last_name', id FROM Users WHERE email = '$mail';";
+    $query = "INSERT INTO childs (first_name, last_name, users_id) SELECT '$first_name', '$last_name', id FROM users WHERE email = '$mail';";
     require_once "dbConnector.php";
     executeQueryInsert($query);
 }
@@ -84,7 +84,7 @@ function addChild($first_name,$last_name,$mail)
  */
 function addParent($mail)
 {
-    $query = "UPDATE Users SET account_status = 1 WHERE email = '$mail';";
+    $query = "UPDATE users SET account_status = 1 WHERE email = '$mail';";
     require_once "dbConnector.php";
     executeQueryUpdate($query);
 }
@@ -96,7 +96,7 @@ function addParent($mail)
  */
 function rmParent($mail)
 {
-    $query = "DELETE FROM tpi_lqa_dbstage.Users WHERE email = '$mail';";
+    $query = "DELETE FROM tpi_lqa_dbstage.users WHERE email = '$mail';";
     require_once "dbConnector.php";
     executeQueryDelete($query);
 }
@@ -111,7 +111,7 @@ function rmParent($mail)
  */
 function createParent($first_name,$last_name,$mail,$password)
 {
-    $query = "INSERT INTO tpi_lqa_dbstage.Users (first_name, last_name, email, type, account_status, password) VALUES ('$first_name', '$last_name', '$mail', 0, 0, '$password');";
+    $query = "INSERT INTO tpi_lqa_dbstage.users (first_name, last_name, email, type, account_status, password) VALUES ('$first_name', '$last_name', '$mail', 0, 0, '$password');";
     require_once "dbConnector.php";
     executeQueryInsert($query);
 }
@@ -126,20 +126,24 @@ function createParent($first_name,$last_name,$mail,$password)
 function sendMailTo($mail,$msg,$subject)
 {
     // Paramètres SMTP de SwissCenter
-    $smtpHost = 'mail01.swisscenter.com'; // Remplacez par le serveur SMTP de SwissCenter
-    $smtpUsername = 'testmail@tpilqa.mycpnv.ch'; // Remplacez par votre nom d'utilisateur SMTP
-    $smtpPort = 587; // Le port SMTP utilisé par SwissCenter (peut varier, vérifiez avec SwissCenter)
+    $smtpHost = 'mail01.swisscenter.com';
+    $smtpUsername = 'testmail@tpilqa.mycpnv.ch';
+    $smtpPort = 587;
 
     // Destinataire et autres détails de l'e-mail
     $to = $mail;
-    $headers = "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers = "From: " . $smtpUsername . "\r\n";
+    $headers .= "Reply-To: " . $smtpUsername . "\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
     // Configuration des paramètres pour la fonction mail()
     ini_set("SMTP", $smtpHost);
     ini_set("smtp_port", $smtpPort);
     ini_set("sendmail_from", $smtpUsername);
 
-
+    // Envoi de l'e-mail
     mail($to, $subject, $msg, $headers);
 }
 
@@ -150,7 +154,43 @@ function sendMailTo($mail,$msg,$subject)
  */
 function getParent($stage)
 {
-    $query = "SELECT u.id AS parent_id, u.first_name AS parent_first_name, u.last_name AS parent_last_name, u.email AS parent_email, c.id AS child_id, c.first_name AS child_first_name, c.last_name AS child_last_name FROM Users u INNER JOIN childs c ON u.id = c.Users_id INNER JOIN childs_register_internships cri ON c.id = cri.childs_id INNER JOIN internships i ON cri.internships_id = i.id WHERE i.id = '$stage';";
+    $query = "SELECT u.id AS parent_id, u.first_name AS parent_first_name, u.last_name AS parent_last_name, u.email AS parent_email, c.id AS child_id, c.first_name AS child_first_name, c.last_name AS child_last_name FROM users u INNER JOIN childs c ON u.id = c.users_id INNER JOIN childs_register_internships cri ON c.id = cri.childs_id INNER JOIN internships i ON cri.internships_id = i.id WHERE i.id = '$stage';";
     require_once "dbConnector.php";
     return executeQuerySelect($query);
+}
+
+/**
+ * Création d'un enseignant
+ * @param $first_name
+ * @param $last_name
+ * @param $email
+ * @return void
+ */
+function createTeacher($first_name,$last_name,$email)
+{
+    $query="INSERT INTO `tpi_lqa_dbstage`.`teachers` (`first_name`, `last_name`, `email`) VALUES ('$first_name', '$last_name', '$email');";
+    require_once "dbConnector.php";
+    executeQueryInsert($query);
+}
+
+/**
+ * Permet de modifier un enseignant avec son mail
+ * @param $first_name
+ * @param $last_name
+ * @param $mail
+ * @param $oldMail
+ * @return void
+ */
+function modifyTeacher($first_name,$last_name,$mail,$oldMail)
+{
+    $query="UPDATE `tpi_lqa_dbstage`.`teachers` AS t JOIN (SELECT * FROM `tpi_lqa_dbstage`.`teachers` WHERE `email` = '$oldMail') AS t2 SET t.`first_name` = '$first_name', t.`last_name` = '$last_name', t.`email` = '$mail' WHERE t.`id` = t2.`id`;";
+    require_once "dbConnector.php";
+    executeQueryUpdate($query);
+}
+
+function deleteTeacher($mail)
+{
+    $query="DELETE FROM `tpi_lqa_dbstage`.`teachers` WHERE (`email` = '$mail');";
+    require_once "dbConnector.php";
+    executeQueryDelete($query);
 }
